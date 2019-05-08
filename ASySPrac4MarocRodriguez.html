@@ -1,0 +1,179 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Pr&aacute;ctica 4: Convoluci&oacute;n y Correlaci&oacute;n de se&ntilde;ales en tiempo continuo</title><meta name="generator" content="MATLAB 9.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-05-07"><meta name="DC.source" content="ASySPrac4MarocRodriguez.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Pr&aacute;ctica 4: Convoluci&oacute;n y Correlaci&oacute;n de se&ntilde;ales en tiempo continuo</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Objetivos:</a></li><li><a href="#2">Problema 1</a></li><li><a href="#3">Problema 2</a></li><li><a href="#4">Problema 3</a></li><li><a href="#5">Problema 4</a></li><li><a href="#6">Problema 5</a></li></ul></div><h2 id="1">Objetivos:</h2><div><ul><li>Conocer m&eacute;todos b&aacute;sicos de integraci&oacute;n num&eacute;rica</li><li>Manipulaci&oacute;n de instrucciones en MATLAB</li><li>Simular convoluciones y correlaciones de se&ntilde;ales continuas</li><li>Simular convoluciones y correlaciones de se&ntilde;ales discretas</li></ul></div><h2 id="2">Problema 1</h2><pre class="codeinput">f = @(t)exp(-t).*(t&gt;=0&amp;t&lt;1)+0*(t&gt;=-1&amp;t&lt;0);
+g = @(t)t.*(t&gt;=-1&amp;t&lt;1);
+convconm(f, g)
+syms <span class="string">t</span>
+h0=piecewise(t&lt;-1, 0, -1&lt;t&lt;0, t+2*exp(-t-1)-1, t&gt;0, 0);
+h1=piecewise(t&lt;0, 0, 0&lt;t&lt;1, (2-t)/exp(1) +t-1, t&gt;1, 0);
+h2=piecewise(t&lt;1, 0, 1&lt;t&lt;2, (2-t)/exp(1), t&gt;2, 0);
+hold <span class="string">on</span>
+fplot(h0, [-1 0])
+fplot(h1, [0 1])
+fplot(h2, [1 2])
+hold <span class="string">off</span>
+</pre><img vspace="5" hspace="5" src="ASySPrac4MarocRodriguez_01.png" alt=""> <h2 id="3">Problema 2</h2><pre class="codeinput">x1=@(t) heaviside(t)-2*heaviside(t - 3)+heaviside(t - 4);
+x2=@(t) heaviside(-t)-2*heaviside(-t - 3)+heaviside(-t - 4);
+convconm(x1, x2)
+syms <span class="string">t</span>
+y0=piecewise(t&lt;-4, 0, -4&lt;t&lt;-3, -t-4, t&gt;-3, 0);
+y1=piecewise(t&lt;-3, 0, -3&lt;t&lt;-1, t+2, t&gt;-1, 0);
+y2=piecewise(t&lt;-1, 0, -1&lt;t&lt;0, 4+3*t, t&gt;0, 0);
+y3=piecewise(t&lt;0, 0, 0&lt;t&lt;1, 4-3*t, t&gt;1, 0);
+y4=piecewise(t&lt;1, 0, 1&lt;t&lt;3, 2-t, t&gt;3, 0);
+y5=piecewise(t&lt;3, 0, 3&lt;t&lt;4, t-4, t&gt;4, 0);
+hold <span class="string">on</span>
+fplot(y0, [-4 -3])
+fplot(y1, [-3 -1])
+fplot(y2, [-1 0])
+fplot(y3, [0 1])
+fplot(y4, [1 3])
+fplot(y5, [3 4])
+hold <span class="string">off</span>
+</pre><img vspace="5" hspace="5" src="ASySPrac4MarocRodriguez_02.png" alt=""> <h2 id="4">Problema 3</h2><p>La siguiente imagen muestra la simulacion de la convolucion de la se&ntilde;al C con la se&ntilde;al D en tiempo discreto:</p><p>imagen</p><h2 id="5">Problema 4</h2><p>La siguiente imagen muestra la simulacion de la correlacion de la se&ntilde;al C con la se&ntilde;al D en tiempo discreto: * Usando el metodo de convolucion (el espejo de la se&ntilde;al D es la misma se&ntilde;al)</p><p>imagen</p><h2 id="6">Problema 5</h2><pre class="codeinput">a=[0 0 -3 -2 -1 0 1 2 3 0 0];
+b=[0 0 0 2 1 0 1 2 0 0 0];
+R = conv(a, b);
+GraficaD([-10:10], R)
+</pre><img vspace="5" hspace="5" src="ASySPrac4MarocRodriguez_03.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Práctica 4: Convolución y Correlación de señales en tiempo continuo
+
+%% Objetivos:
+% 
+% * Conocer métodos básicos de integración numérica
+% * Manipulación de instrucciones en MATLAB
+% * Simular convoluciones y correlaciones de señales continuas
+% * Simular convoluciones y correlaciones de señales discretas
+% 
+
+
+%% Problema 1
+%
+
+f = @(t)exp(-t).*(t>=0&t<1)+0*(t>=-1&t<0);
+g = @(t)t.*(t>=-1&t<1);
+convconm(f, g)
+syms t
+h0=piecewise(t<-1, 0, -1<t<0, t+2*exp(-t-1)-1, t>0, 0);
+h1=piecewise(t<0, 0, 0<t<1, (2-t)/exp(1) +t-1, t>1, 0);
+h2=piecewise(t<1, 0, 1<t<2, (2-t)/exp(1), t>2, 0);
+hold on
+fplot(h0, [-1 0])
+fplot(h1, [0 1])
+fplot(h2, [1 2])
+hold off
+%% Problema 2
+%
+
+x1=@(t) heaviside(t)-2*heaviside(t - 3)+heaviside(t - 4);
+x2=@(t) heaviside(-t)-2*heaviside(-t - 3)+heaviside(-t - 4);
+convconm(x1, x2)
+syms t
+y0=piecewise(t<-4, 0, -4<t<-3, -t-4, t>-3, 0);
+y1=piecewise(t<-3, 0, -3<t<-1, t+2, t>-1, 0);
+y2=piecewise(t<-1, 0, -1<t<0, 4+3*t, t>0, 0);
+y3=piecewise(t<0, 0, 0<t<1, 4-3*t, t>1, 0);
+y4=piecewise(t<1, 0, 1<t<3, 2-t, t>3, 0);
+y5=piecewise(t<3, 0, 3<t<4, t-4, t>4, 0);
+hold on
+fplot(y0, [-4 -3])
+fplot(y1, [-3 -1])
+fplot(y2, [-1 0])
+fplot(y3, [0 1])
+fplot(y4, [1 3])
+fplot(y5, [3 4])
+hold off
+
+%% Problema 3
+%
+% La siguiente imagen muestra la simulacion de la convolucion de la señal C
+% con la señal D en tiempo discreto:
+% 
+% imagen
+% 
+
+%% Problema 4
+%
+%
+% La siguiente imagen muestra la simulacion de la correlacion de la señal C
+% con la señal D en tiempo discreto:
+% * Usando el metodo de convolucion (el espejo de la señal D es la misma señal)
+% 
+% imagen
+% 
+
+%% Problema 5
+%
+
+a=[0 0 -3 -2 -1 0 1 2 3 0 0];
+b=[0 0 0 2 1 0 1 2 0 0 0];
+R = conv(a, b);
+GraficaD([-10:10], R)
+##### SOURCE END #####
+--></body></html>
